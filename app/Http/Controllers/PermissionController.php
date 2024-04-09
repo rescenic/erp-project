@@ -21,7 +21,6 @@ class PermissionController extends Controller
 
     public function simpan(Request $request)
     {
-
         $permission = new Permission();
         $permission->name = $request->permission;
         $permission->save();
