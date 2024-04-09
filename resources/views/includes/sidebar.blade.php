@@ -37,7 +37,7 @@
 
             <li class="menu-header">Pengaturan</li>
 
-            <li><a class="nav-link" href="credits.html"><i class="fas fa-tags"></i> <span>Permission</span></a>
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-tags"></i> <span>Permission</span></a>
             </li>
 
             <li><a class="nav-link" href="credits.html"><i class="fas fa-briefcase"></i> <span>Role</span></a>
