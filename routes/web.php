@@ -29,13 +29,13 @@ Route::prefix('dashboard')->group(function () {
         ->name('permission');
     Route::get('permission/tambah', [PermissionController::class, 'tambah'])
         ->name('permission.tambah');
-    Route::get('permission/simpan', [PermissionController::class, 'simpan'])
+    Route::post('permission/simpan', [PermissionController::class, 'simpan'])
         ->name('permission.simpan');
     Route::get('permission/edit/{id}', [PermissionController::class, 'edit'])
         ->name('permission.edit');
     Route::post('permission/update', [PermissionController::class, 'update'])
         ->name('permission.update');
-    Route::get('permission/hapus/{id}', [PermissionController::class, 'hapus'])
+    Route::post('permission/hapus', [PermissionController::class, 'hapus'])
         ->name('permission.hapus');
 });
 

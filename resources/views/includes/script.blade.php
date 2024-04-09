@@ -20,3 +20,7 @@
   <!-- Template JS File -->
   <script src="{{ asset('be/dist/assets/js/scripts.js') }}"></script>
   <script src="{{ asset('be/dist/assets/js/custom.js') }}"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  @stack('script')

@@ -14,14 +14,13 @@ class PermissionController extends Controller
         return view('pages.permission.index', compact('permission'));
     }
 
-    public function tambah(){
+    public function tambah()
+    {
         return view('pages.permission.tambah');
     }
 
-    public function simpan(Request $request){
-        $this->validate($request, [
-            'permission' => 'required|unique:permission,name,'
-        ]);
+    public function simpan(Request $request)
+    {
 
         $permission = new Permission();
         $permission->name = $request->permission;
@@ -30,14 +29,15 @@ class PermissionController extends Controller
         if ($permission) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Berhasil disimpan',
+                'message' => 'Data disimpan',
                 'data' => $permission
             ]);
         }
     }
 
 
-    public function edit($id){
+    public function edit($id)
+    {
         $permission = Permission::findOrFail($id);
 
         return view('pages.permission.edit', [
@@ -46,13 +46,24 @@ class PermissionController extends Controller
     }
 
 
-    public function update(Request $request){
-        $this->validate($request, [
-            'permission' => 'required|unique:permission,name,'
-        ]);
+    public function update(Request $request)
+    {
+        $permission = Permission::find($request->id);
+
+        $permission->name = $request->permission;
+        $permission->save();
+
+        if ($permission) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data diubah',
+                'data' => $permission
+            ]);
+        }
     }
 
-    public function hapus(Request $request){
+    public function hapus(Request $request)
+    {
         $permission = Permission::find($request->id);
 
         $permission->delete();
@@ -60,7 +71,7 @@ class PermissionController extends Controller
         if ($permission) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Berhasil dihapus',
+                'message' => 'Data dihapus',
             ]);
         }
     }
