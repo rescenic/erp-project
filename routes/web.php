@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -37,6 +38,24 @@ Route::prefix('dashboard')->group(function () {
         ->name('permission.update');
     Route::post('permission/hapus', [PermissionController::class, 'hapus'])
         ->name('permission.hapus');
+    Route::get('permission.data', [PermissionController::class, 'dataPermission'])
+        ->name('permission.data');
+
+
+    Route::get('role', [RoleController::class, 'index'])
+        ->name('role');
+    Route::get('role/tambah', [RoleController::class, 'tambah'])
+        ->name('role.tambah');
+    Route::get('role/listPermission', [RoleController::class, 'listPermission'])
+        ->name('role.listPermission');
+    Route::post('role/simpan', [RoleController::class, 'simpan'])
+        ->name('role.simpan');
+    Route::get('role/edit/{id}', [RoleController::class, 'edit'])
+        ->name('role.edit');
+    Route::post('role/update', [RoleController::class, 'update'])
+        ->name('role.update');
+    Route::post('role/hapus', [RoleController::class, 'hapus'])
+        ->name('role.hapus');
 });
 
 Auth::routes();

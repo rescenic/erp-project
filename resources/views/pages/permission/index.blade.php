@@ -25,33 +25,15 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered" style="width: 100%">
+                            <table class="table table-bordered" style="width: 100%" id="dataTable">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th>Permission</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($permission as $item)
-                                        <tr>
-                                            <td>{{ $item->name }}</td>
-                                            <td>
-                                                <a href="{{ route('permission.edit', $item->id) }}" class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-sm fa-edit"></i> Edit
-                                                </a>
-
-                                                <a href="#" class="btn btn-sm btn-primary" id="hapus"
-                                                    data-id="{{ $item->id }}">
-                                                    <i class="fas fa-sm fa-trash-alt"></i> Hapus
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
                             </table>
-
-                            {{ $permission->links() }}
                         </div>
                     </div>
                 </div>
@@ -62,7 +44,41 @@
 
 @push('script')
     <script>
-        $(document).on('click', '#hapus', function() {
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 25, -1],
+                    [10, 20, 25, "50"]
+                ],
+
+                order: [],
+                ajax: {
+                    url: "{{ route('permission.data') }}",
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        'orderable': false,
+                        'searchable': false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+
+                    {
+                        data: 'aksi',
+                        name: 'aksi'
+                    },
+                ]
+            });
+        });
+
+        $(document).on('click', '.hapus', function() {
             let id = $(this).attr('data-id');
             Swal.fire({
                 title: 'Hapus data?',
@@ -94,9 +110,7 @@
                                     timer: 1500,
                                     showConfirmButton: false,
                                 });
-                                setTimeout(function() {
-                                    window.location.reload();
-                                }, 1500);
+                                $('#dataTable').DataTable().ajax.reload();
                             }
                         },
                     })

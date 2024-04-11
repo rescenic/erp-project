@@ -40,7 +40,7 @@
             <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-tags"></i> <span>Permission</span></a>
             </li>
 
-            <li><a class="nav-link" href="credits.html"><i class="fas fa-briefcase"></i> <span>Role</span></a>
+            <li><a class="nav-link" href="{{ route('role') }}"><i class="fas fa-briefcase"></i> <span>Role</span></a>
             </li>
 
             <li><a class="nav-link" href="credits.html"><i class="fas fa-briefcase"></i> <span>User</span></a>
