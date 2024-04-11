@@ -19,12 +19,6 @@ class PermissionController extends Controller
                 ->get();
 
             return datatables()->of($permission)
-                ->editColumn('icon', function ($data) {
-                    if ($data->icon === null) {
-                        return '-';
-                    } else {
-                    }
-                })
                 ->addColumn('aksi', function ($data) {
                     $button = '<div class="dropdown d-inline mr-2"><button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-sm fa-edit"></i> Aksi
