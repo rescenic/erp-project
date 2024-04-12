@@ -45,7 +45,7 @@
                         </form>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered" style="width: 100%">
+                            <table class="table table-bordered" style="width: 100%" id="dataTable">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -54,34 +54,7 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @foreach ($role as $key => $item)
-                                        <tr>
-                                            <td>{{ $role->firstItem() + $key }}</td>
-                                            <td>{{ $item->name }}</td>
-                                            <td>
-                                                @foreach ($role->getPermissionNames() as $permission)
-                                                    <button
-                                                        class="btn btn-sm btn-success mb-1 mt-1 mr-1">{{ $permission }}</button>
-                                                @endforeach
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('permission.edit', $item->id) }}"
-                                                    class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-sm fa-edit"></i> Edit
-                                                </a>
-
-                                                <a href="#" class="btn btn-sm btn-primary" id="hapus"
-                                                    data-id="{{ $item->id }}">
-                                                    <i class="fas fa-sm fa-trash-alt"></i> Hapus
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
                             </table>
-
-                            {{ $role->links() }}
                         </div>
                     </div>
                 </div>
@@ -92,7 +65,45 @@
 
 @push('script')
     <script>
-        $(document).on('click', '#hapus', function() {
+        $(document).ready(function() {
+            $('#dataTable').DataTable({
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 25, -1],
+                    [10, 20, 25, "50"]
+                ],
+
+                order: [],
+                ajax: {
+                    url: "{{ route('role.data') }}",
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        'orderable': false,
+                        'searchable': false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+
+                    {
+                        data: 'permission',
+                        name: 'permission'
+                    },
+                    {
+                        data: 'aksi',
+                        name: 'aksi'
+                    },
+                ]
+            });
+        });
+
+        $(document).on('click', '.hapus', function() {
             let id = $(this).attr('data-id');
             Swal.fire({
                 title: 'Hapus data?',
@@ -108,7 +119,7 @@
                 if (result.value) {
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('permission.hapus') }}",
+                        url: "{{ route('role.hapus') }}",
                         data: {
                             id: id,
                             _token: "{{ csrf_token() }}"
@@ -124,9 +135,7 @@
                                     timer: 1500,
                                     showConfirmButton: false,
                                 });
-                                setTimeout(function() {
-                                    window.location.reload();
-                                }, 1500);
+                                $('#dataTable').DataTable().ajax.reload();
                             }
                         },
                     })

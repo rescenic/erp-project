@@ -19,6 +19,7 @@
   <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
   <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap4.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ asset('be/dist/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
 
   <!-- Page Specific JS File -->
   <script src="{{ asset('be/dist/assets/js/page/index.js') }}"></script>

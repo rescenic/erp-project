@@ -22,9 +22,14 @@
 
 
                             <div class="form-group">
+                                <label for="">Role:</label>
+                                <input type="text" name="role" class="form-control" placeholder="Masukan role">
+                            </div>
+
+
+                            <div class="form-group">
                                 <label for="">Permission:</label>
-                                <input type="text" name="permission" class="form-control"
-                                    placeholder="Masukan permission">
+                                <select name="permission[]" id="permissions" class="form-control"></select>
                             </div>
 
                             <button class="btn btn-sm btn-primary" type="submit">
@@ -42,12 +47,33 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            $('#permissions').select2({
+                multiple: true,
+                placeholder: '--Pilih permissions',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('role.listPermission') }}",
+                    dataType: 'json',
+                    delay: 500,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+
             $("#form_simpan").submit(function(e) {
                 e.preventDefault();
 
                 var formData = new FormData($(this)[0]);
                 $.ajax({
-                    url: '{{ route('permission.simpan') }}',
+                    url: '{{ route('role.simpan') }}',
                     method: 'post',
                     data: formData,
                     cache: false,
@@ -69,7 +95,7 @@
                             });
 
                             setTimeout(function() {
-                                window.top.location = "{{ route('permission') }}";
+                                window.top.location = "{{ route('role') }}";
                             }, 1500);
                         } else {
                             $.each(data.error, function(prefix, val) {

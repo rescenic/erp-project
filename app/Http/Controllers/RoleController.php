@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -11,11 +12,39 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $role = Role::latest()->when(request()->q, function ($role) {
-            $role = $role->where('name', 'like', '%' . request()->q . '%');
-        })->paginate(10);
+        return view('pages.role.index');
+    }
 
-        return view('pages.role.index', compact('role'));
+
+    public function data(Request $request)
+    {
+        if ($request->ajax()) {
+            $roles = Role::all();
+
+            return datatables()->of($roles)
+                ->addColumn('permission', function ($role) {
+                    $permissions = '';
+                    foreach ($role->getPermissionNames() as $permission) {
+                        $permissions .= '<button class="btn btn-sm btn-success mb-1 mt-1 mr-1">' . $permission . '</button>';
+                    }
+                    return $permissions;
+                })
+                ->addColumn('aksi', function ($role) {
+                    $button = '<div class="dropdown d-inline mr-2"><button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-sm fa-edit"></i> Aksi
+                        </button>';
+
+                    $button .= ' <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item hapus" href="javascript:void(0)" data-id="' . $role->id . '">Hapus</a>
+                        </div></div>';
+
+                    return $button;
+                })
+                ->addIndexColumn()
+                ->rawColumns(['aksi', 'permission'])
+                ->toJson();
+        }
     }
 
     public function tambah()
@@ -26,15 +55,30 @@ class RoleController extends Controller
     public function listPermission(Request $request)
     {
         if ($request->has('q')) {
-
             $search = $request->q;
 
             $result = [];
-
-            $data = Permission::select('*')->where('name', 'LIKE', '%' . $search . '%')->get();
+            $data = DB::table('permissions')
+                ->select('*')
+                ->where('name', 'LIKE', "%$search%")
+                ->get();
 
             foreach ($data as $d) {
-                $result = [
+                $result[] = [
+                    'id' => $d->id,
+                    'text' => $d->name
+                ];
+            }
+
+            return response()->json($result);
+        } else {
+            $result = [];
+            $data = DB::table('permissions')
+                ->select('*')
+                ->get();
+
+            foreach ($data as $d) {
+                $result[] = [
                     'id' => $d->id,
                     'text' => $d->name
                 ];
@@ -46,10 +90,18 @@ class RoleController extends Controller
 
     public function simpan(Request $request)
     {
-        $this->validate($request, [
+
+        $validator = Validator::make($request->all(), [
             'role' => 'required',
             'permission' => 'required'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error validation',
+                'error' => $validator->errors()
+            ]);
+        }
 
         DB::beginTransaction();
 
@@ -59,7 +111,7 @@ class RoleController extends Controller
             $role->save();
 
 
-            $role->syncPermissions($request->permissions);
+            $role->syncPermissions($request->permission);
 
             DB::commit();
 

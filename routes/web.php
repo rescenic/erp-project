@@ -44,6 +44,8 @@ Route::prefix('dashboard')->group(function () {
 
     Route::get('role', [RoleController::class, 'index'])
         ->name('role');
+    Route::get('role/data', [RoleController::class, 'data'])
+        ->name('role.data');
     Route::get('role/tambah', [RoleController::class, 'tambah'])
         ->name('role.tambah');
     Route::get('role/listPermission', [RoleController::class, 'listPermission'])
