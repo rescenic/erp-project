@@ -19,14 +19,16 @@
             </li>
 
 
-            <li><a class="nav-link" href="credits.html"><i class="fas fa-tags"></i> <span>Kategori</span></a>
+            <li><a class="nav-link" href="{{ route('kategori') }}"><i class="fas fa-tags"></i> <span>Kategori</span></a>
             </li>
 
-            <li><a class="nav-link" href="credits.html"><i class="fas fa-briefcase"></i> <span>Produk</span></a>
-            </li>
 
-            <li><a class="nav-link" href="credits.html"><i class="fas fa-briefcase"></i> <span>Produk
+
+            <li><a class="nav-link" href="{{ route('produk_satuan') }}"><i class="fas fa-briefcase"></i> <span>Produk
                         Satuan</span></a>
+            </li>
+
+            <li><a class="nav-link" href="credits.html"><i class="fas fa-briefcase"></i> <span>Produk Paket</span></a>
             </li>
 
 
@@ -37,7 +39,8 @@
 
             <li class="menu-header">Pengaturan</li>
 
-            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-tags"></i> <span>Permission</span></a>
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-tags"></i>
+                    <span>Permission</span></a>
             </li>
 
             <li><a class="nav-link" href="{{ route('role') }}"><i class="fas fa-briefcase"></i> <span>Role</span></a>

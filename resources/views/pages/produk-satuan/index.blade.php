@@ -1,15 +1,15 @@
 @extends('layouts.be')
 
-@section('title', 'Kategori Produk')
+@section('title', 'Produk Satuan')
 
 @section('content')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Kategori Produk</h1>
+                <h1>Produk Satuan</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">Kategori Produk</div>
+                    <div class="breadcrumb-item">Produk Satuan</div>
                 </div>
             </div>
 
@@ -18,7 +18,7 @@
                     <div class="card-header">
                         <h4></h4>
                         <div class="card-header-action">
-                            <a href="{{ route('kategori.tambah') }}" class="btn btn-primary">
+                            <a href="{{ route('produk_satuan.tambah') }}" class="btn btn-primary">
                                 <i class="fas fa-sm fa-plus-circle"></i> Tambah
                             </a>
                         </div>
@@ -29,6 +29,10 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
+                                        <th>Kode</th>
+                                        <th>Nama</th>
+                                        <th>Sku</th>
+                                        <th>No Bpom</th>
                                         <th>Kategori</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -48,6 +52,7 @@
             $('#dataTable').DataTable({
                 destroy: true,
                 processing: true,
+                searching: false,
                 serverSide: true,
                 responsive: true,
                 pageLength: 10,
@@ -58,7 +63,7 @@
 
                 order: [],
                 ajax: {
-                    url: "{{ route('kategori.data') }}",
+                    url: "{{ route('produk_satuan.data') }}",
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -66,8 +71,24 @@
                         'searchable': false
                     },
                     {
-                        data: 'kategori',
-                        name: 'kategori'
+                        data: 'kode',
+                        name: 'kode'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'sku',
+                        name: 'sku'
+                    },
+                    {
+                        data: 'no_bpom',
+                        name: 'no_bpom'
+                    },
+                    {
+                        data: 'kategori_produk',
+                        name: 'kategori_produk'
                     },
 
                     {

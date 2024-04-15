@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProdukSatuanController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,40 @@ Route::get('/', function () {
 Route::prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])
         ->name('dashboard');
+
+
+    //
+    Route::get('kategori', [KategoriController::class, 'index'])
+        ->name('kategori');
+    Route::get('kategori/data', [KategoriController::class, 'data'])
+        ->name('kategori.data');
+    Route::get('kategori/tambah', [KategoriController::class, 'tambah'])
+        ->name('kategori.tambah');
+    Route::post('kategori/simpan', [KategoriController::class, 'simpan'])
+        ->name('kategori.simpan');
+    Route::get('kategori/edit/{id}', [KategoriController::class, 'edit'])
+        ->name('kategori.edit');
+    Route::post('kategori/update', [KategoriController::class, 'update'])
+        ->name('kategori.update');
+    Route::post('kategori/hapus', [KategoriController::class, 'hapus'])
+        ->name('kategori.hapus');
+
+    Route::get('produk-satuan', [ProdukSatuanController::class, 'index'])
+        ->name('produk_satuan');
+    Route::get('produk-satuan/data', [ProdukSatuanController::class, 'data'])
+        ->name('produk_satuan.data');
+    Route::get('produk-satuan/tambah', [ProdukSatuanController::class, 'tambah'])
+        ->name('produk_satuan.tambah');
+    Route::post('produk-satuan/simpan', [ProdukSatuanController::class, 'simpan'])
+        ->name('produk_satuan.simpan');
+    Route::get('produk-satuan/edit/{id}', [ProdukSatuanController::class, 'edit'])
+        ->name('produk_satuan.edit');
+    Route::post('produk-satuan/update', [ProdukSatuanController::class, 'update'])
+        ->name('produk_satuan.update');
+    Route::get('produk-satuan/listKategori', [ProdukSatuanController::class, 'listKategori'])
+        ->name('produk_satuan.listKategori');
+    Route::get('produk-satuan/kategoriByProdukSatuan', [ProdukSatuanController::class, 'kategoriByProdukSatuan'])
+        ->name('produk_satuan.kategoriByProdukSatuan');
 
     Route::get('permission', [PermissionController::class, 'index'])
         ->name('permission');
@@ -50,6 +85,8 @@ Route::prefix('dashboard')->group(function () {
         ->name('role.tambah');
     Route::get('role/listPermission', [RoleController::class, 'listPermission'])
         ->name('role.listPermission');
+    Route::get('role/listPermissionsByRole', [RoleController::class, 'listPermissionsByRole'])
+        ->name('role.listPermissionsByRole');
     Route::post('role/simpan', [RoleController::class, 'simpan'])
         ->name('role.simpan');
     Route::get('role/edit/{id}', [RoleController::class, 'edit'])

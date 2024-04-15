@@ -35,7 +35,7 @@ class RoleController extends Controller
                         </button>';
 
                     $button .= ' <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
-                            <a class="dropdown-item" href="#">Edit</a>
+                            <a class="dropdown-item" href="'.route('role.edit', $role->id).'">Edit</a>
                             <a class="dropdown-item hapus" href="javascript:void(0)" data-id="' . $role->id . '">Hapus</a>
                         </div></div>';
 
@@ -158,7 +158,7 @@ class RoleController extends Controller
             $role->save();
 
 
-            $role->syncPermissions($request->permissions);
+            $role->syncPermissions($request->permission);
 
             DB::commit();
 
@@ -178,6 +178,19 @@ class RoleController extends Controller
                 'error' => $e->getMessage()
             ]);
         }
+    }
+
+
+    public function listPermissionsByRole(Request $request)
+    {
+        $data = DB::table('permissions')
+            ->select('permissions.*')
+            ->join('role_has_permissions', 'role_has_permissions.permission_id', '=', 'permissions.id')
+            ->join('roles', 'role_has_permissions.role_id', '=', 'roles.id')
+            ->where('roles.id', $request->role_id)
+            ->get();
+
+        return response()->json($data);
     }
 
     public function hapus(Request $request)

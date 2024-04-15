@@ -1,15 +1,15 @@
 @extends('layouts.be')
 
-@section('title', 'Permission')
+@section('title', 'Role')
 
 @section('content')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Permission</h1>
+                <h1>Role</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">Permission</div>
+                    <div class="breadcrumb-item">Role</div>
                 </div>
             </div>
 

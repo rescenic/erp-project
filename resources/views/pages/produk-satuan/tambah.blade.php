@@ -1,15 +1,15 @@
 @extends('layouts.be')
 
-@section('title', 'Role')
+@section('title', 'Produk Satuan')
 
 @section('content')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Role</h1>
+                <h1>Produk Satuan</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">Tambah Role</div>
+                    <div class="breadcrumb-item">Produk Satuan</div>
                 </div>
             </div>
 
@@ -20,19 +20,48 @@
                         <form action="#" id="form_simpan" method="POST">
                             @csrf
 
-                            <input type="hidden" name="id" value="{{ $role->id }}" id="role_id">
 
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Kode:</label>
+                                        <input type="text" name="kode" class="form-control"
+                                            placeholder="Masukan kode">
+                                    </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="">Role:</label>
-                                <input type="text" name="role" class="form-control" placeholder="Masukan role"
-                                    value="{{ $role->name }}">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Nama:</label>
+                                        <input type="text" name="nama" class="form-control"
+                                            placeholder="Masukan nama">
+                                    </div>
+                                </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Sku:</label>
+                                        <input type="text" name="sku" class="form-control" placeholder="Masukan sku">
+                                    </div>
+                                </div>
 
-                            <div class="form-group">
-                                <label for="">Permission:</label>
-                                <select name="permission[]" id="permissions" class="form-control"></select>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">No BPOM:</label>
+                                        <input type="text" name="no_bpom" class="form-control"
+                                            placeholder="Masukan no bpom">
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Kategori:</label>
+                                        <select name="kategori" id="kategori" class="form-control"></select>
+                                    </div>
+                                </div>
                             </div>
 
                             <button class="btn btn-sm btn-primary" type="submit">
@@ -51,30 +80,12 @@
     <script>
         $(document).ready(function() {
 
-            var role_id = $('#role_id').val();
-            $.ajax({
-                type: 'GET',
-                url: "{{ route('role.listPermissionsByRole') }}",
-                data: {
-                    role_id: role_id,
-                    _token: '{{ csrf_token() }}'
-                }
-            }).then(function(data) {
-                for (i = 0; i < data.length; i++) {
-
-                    var newOption = new Option(data[i].name, data[i].id, true,
-                        true);
-
-                    $('#permissions').append(newOption).trigger('change');
-                }
-            });
-
-            $('#permissions').select2({
+            $('#kategori').select2({
                 multiple: true,
-                placeholder: '--Pilih permissions',
+                placeholder: '--Pilih kategori',
                 allowClear: true,
                 ajax: {
-                    url: "{{ route('role.listPermission') }}",
+                    url: "{{ route('produk_satuan.listKategori') }}",
                     dataType: 'json',
                     delay: 500,
                     processResults: function(data) {
@@ -95,7 +106,7 @@
 
                 var formData = new FormData($(this)[0]);
                 $.ajax({
-                    url: '{{ route('role.update') }}',
+                    url: '{{ route('produk_satuan.simpan') }}',
                     method: 'post',
                     data: formData,
                     cache: false,
@@ -117,7 +128,7 @@
                             });
 
                             setTimeout(function() {
-                                window.top.location = "{{ route('role') }}";
+                                window.top.location = "{{ route('produk_satuan') }}";
                             }, 1500);
                         } else {
                             $.each(data.error, function(prefix, val) {
