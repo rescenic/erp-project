@@ -19,4 +19,8 @@ class ProdukSatuan extends Model
     public function kategori_produk(){
         return $this->belongsTo(KategoriProduk::class, 'kategori_id', 'id');
     }
+
+    public function produk_paket(){
+        return $this->belongsToMany(ProdukPaket::class, 'produk_paket', 'paket_id', 'produk_satuan_id');
+    }
 }

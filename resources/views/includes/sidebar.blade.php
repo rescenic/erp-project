@@ -28,7 +28,7 @@
                         Satuan</span></a>
             </li>
 
-            <li><a class="nav-link" href="credits.html"><i class="fas fa-briefcase"></i> <span>Produk Paket</span></a>
+            <li><a class="nav-link" href="{{ route('produk_paket') }}"><i class="fas fa-briefcase"></i> <span>Produk Paket</span></a>
             </li>
 
 

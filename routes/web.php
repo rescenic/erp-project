@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProdukPaketController;
 use App\Http\Controllers\ProdukSatuanController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +21,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
-Route::prefix('dashboard')->group(function () {
+Route::prefix('internal')
+->middleware('auth')
+->group(function () {
     Route::get('/', [DashboardController::class, 'index'])
         ->name('dashboard');
 
@@ -60,6 +63,10 @@ Route::prefix('dashboard')->group(function () {
         ->name('produk_satuan.listKategori');
     Route::get('produk-satuan/kategoriByProdukSatuan', [ProdukSatuanController::class, 'kategoriByProdukSatuan'])
         ->name('produk_satuan.kategoriByProdukSatuan');
+
+
+    Route::get('produk-paket', [ProdukPaketController::class, 'index'])
+    ->name('produk_paket');
 
     Route::get('permission', [PermissionController::class, 'index'])
         ->name('permission');
