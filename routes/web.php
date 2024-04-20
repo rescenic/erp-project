@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KategoriPackagingController;
+use App\Http\Controllers\PackagingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProdukBundlingController;
 use App\Http\Controllers\ProdukPaketController;
@@ -33,7 +34,7 @@ Route::prefix('internal')
             ->name('dashboard');
 
 
-        //
+
         Route::get('kategori', [KategoriController::class, 'index'])
             ->name('kategori');
         Route::get('kategori/data', [KategoriController::class, 'data'])
@@ -137,6 +138,8 @@ Route::prefix('internal')
             ->name('produk_bundling.listBundling');
         Route::get('produk-bundling/list-produk-satuan', [ProdukBundlingController::class, 'listProdukSatuan'])
             ->name('produk_bundling.list_produk_satuan');
+        Route::post('produk-bundling/hapus_produk_bundling', [ProdukBundlingController::class, 'hapusProdukBundling'])
+            ->name('produk_bundling.hapus_produk_bundling');
 
 
         Route::get('kategori-packaging', [KategoriPackagingController::class, 'index'])
@@ -154,6 +157,23 @@ Route::prefix('internal')
         Route::post('kategori-packaging/hapus', [KategoriPackagingController::class, 'hapus'])
             ->name('kategori_packaging.hapus');
 
+
+        Route::get('packaging', [PackagingController::class, 'index'])
+            ->name('packaging');
+        Route::get('packaging/data', [PackagingController::class, 'data'])
+            ->name('packaging.data');
+        Route::get('packaging/tambah', [PackagingController::class, 'tambah'])
+            ->name('packaging.tambah');
+        Route::post('packaging/simpan', [PackagingController::class, 'simpan'])
+            ->name('packaging.simpan');
+        Route::get('packaging/edit/{id}', [PackagingController::class, 'edit'])
+            ->name('packaging.edit');
+        Route::post('packaging/update', [PackagingController::class, 'update'])
+            ->name('packaging.update');
+        Route::get('packaging/listKategoriPackaging', [PackagingController::class, 'listKategoriPackaging'])
+            ->name('packaging.listKategoriPackaging');
+        Route::post('packaging/hapus', [PackagingController::class, 'hapus'])
+            ->name('packaging.hpaus');
 
         Route::get('permission', [PermissionController::class, 'index'])
             ->name('permission');

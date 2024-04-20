@@ -66,14 +66,27 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="form-group">
-                                <label for="">Sku Bundling:</label>
-                                <select name="bundling" id="sku_bundling" class="form-control"></select>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Sku Bundling:</label>
+                                        <select name="bundling" id="sku_bundling" class="form-control"></select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Sku Produk Satuan:</label>
+                                        <select name="produk_satuan" id="produk_satuan" class="form-control"></select>
+                                    </div>
+                                </div>
                             </div>
 
-                            <a class="btn btn-sm btn-primary text-white">
+                            <a class="btn btn-sm btn-primary text-white cari_produk_bundling">
                                 <i class="fas fa-sm fa-search"></i> Cari
                             </a>
+
 
                             <a class="btn btn-sm btn-primary text-white reset_produk_bundling">
                                 <i class="fas fa-sm fa-trash"></i> Reset
@@ -147,6 +160,9 @@
         }
 
         $(document).ready(function() {
+
+            $('#sku_bundling').empty();
+
             $('#sku_bundling').select2({
                 minimumInputLength: 3,
                 multiple: false,
@@ -169,19 +185,47 @@
                 }
             });
 
-            $('#sku_bundling').on('change', function() {
-                var sku_bundling = $(this).val();
 
-                data_produk_bundling(sku_bundling);
+
+            $('#produk_satuan').select2({
+                minimumInputLength: 3,
+                multiple: false,
+                placeholder: '--Pilih produk satuan',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('produk_bundling.list_produk_satuan') }}",
+                    dataType: 'json',
+                    delay: 500,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
             });
         });
 
+        $(document).on('click', '.cari_produk_bundling', function() {
+            var sku_bundling = $('#sku_bundling').val();
+
+            var produk_satuan = $('#produk_satuan').val();
+
+            data_produk_bundling(sku_bundling, produk_satuan);
+        });
+
+
         $(document).on('click', '.reset_produk_bundling', function() {
             $('#sku_bundling').val('').trigger('change');
+            $('#produk_satuan').val('').trigger('change');
             data_produk_bundling();
         });
 
-        function data_produk_bundling(sku_bundling = '') {
+        function data_produk_bundling(sku_bundling = '', produk_satuan = '') {
             $('#dataTableProdukBundling').DataTable({
                 searching: false,
                 destroy: true,
@@ -199,6 +243,7 @@
                     url: "{{ route('produk_bundling.dataProdukByBundling') }}",
                     data: {
                         sku_bundling: sku_bundling,
+                        produk_satuan: produk_satuan,
                     },
                 },
                 columns: [{
@@ -292,7 +337,7 @@
             });
         });
 
-        $(document).on('click', '.hapus_produk_paket', function() {
+        $(document).on('click', '.hapus_produk_bundling', function() {
             let id = $(this).attr('data-id');
             Swal.fire({
                 title: 'Hapus data?',
@@ -308,7 +353,7 @@
                 if (result.value) {
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('produk_paket.hapus_produk_paket') }}",
+                        url: "{{ route('produk_bundling.hapus_produk_bundling') }}",
                         data: {
                             id: id,
                             _token: "{{ csrf_token() }}"
@@ -324,7 +369,9 @@
                                     timer: 1500,
                                     showConfirmButton: false,
                                 });
-                                data_master_paket().DataTable().ajax.reload();
+                                setTimeout(function() {
+                                    window.location.reload();
+                                }, 1500);
                             }
                         },
                     })

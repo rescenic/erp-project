@@ -23,7 +23,12 @@
             </li>
 
 
-            <li><a class="nav-link" href="{{ route('kategori_packaging') }}"><i class="fas fa-tags"></i> <span>Kategori Packaging</span></a>
+            <li><a class="nav-link" href="{{ route('kategori_packaging') }}"><i class="fas fa-tags"></i> <span>Kategori
+                        Packaging</span></a>
+            </li>
+
+            <li><a class="nav-link" href="{{ route('packaging') }}"><i class="fas fa-box"></i>
+                    <span>Packaging</span></a>
             </li>
 
 

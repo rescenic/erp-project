@@ -14,4 +14,9 @@ class KategoriPackaging extends Model
     protected $fillable = [
         'kategori'
     ];
+
+    public function packaging()
+    {
+        return $this->hasMany(Packaging::class, 'kategori_packaging_id', 'id');
+    }
 }

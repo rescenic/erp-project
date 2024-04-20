@@ -139,10 +139,42 @@ class ProdukBundlingController extends Controller
     {
         if ($request->ajax()) {
 
-
-
-            if (empty($request->sku_bundling)) {
+            if (empty($request->sku_bundling) && empty($request->produk_satuan)) {
                 $bundling = ProdukBundling::with(['bundling', 'produk_satuan'])->get();
+                return datatables()->of($bundling)
+                    ->addColumn('bundling', function ($bundling) {
+                        return $bundling->bundling->sku;
+                    })
+                    ->addColumn('produk_satuan', function ($bundling) {
+                        return $bundling->produk_satuan->sku;
+                    })
+                    ->addColumn('aksi', function ($bundling) {
+                        $button = '<div class="dropdown d-inline mr-2"><button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-sm fa-edit"></i> Aksi
+                    </button>';
+
+                        $button .= ' <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" href="' . route('produk_bundling.edit', $bundling->id) . '">
+                             Edit</a>
+                        <a class="dropdown-item hapus_produk_bundling" href="javascript:void(0)" data-id="' . $bundling->id . '">
+                             Hapus</a>
+                    </div></div>';
+
+                        return $button;
+                    })
+                    ->addIndexColumn()
+                    ->rawColumns(['aksi', 'bundling'])
+                    ->toJson();
+            }
+
+            if (!empty($request->sku_bundling) && empty($request->produk_satuan)) {
+
+                $sku_bundling = $request->sku_bundling;
+
+                $bundling = ProdukBundling::whereHas('bundling', function ($q) use ($sku_bundling) {
+                    $q->where('bundling.id', $sku_bundling);
+                })->with(['produk_satuan'])->get();
+
                 return datatables()->of($bundling)
                     ->addColumn('bundling', function ($bundling) {
                         return $bundling->bundling->sku;
@@ -167,13 +199,52 @@ class ProdukBundlingController extends Controller
                     ->addIndexColumn()
                     ->rawColumns(['aksi', 'bundling'])
                     ->toJson();
-            } else {
+            }
+
+            if (empty($request->sku_bundling) && !empty($request->produk_satuan)) {
+
+                $produk_satuan = $request->produk_satuan;
+
+                $bundling = ProdukBundling::whereHas('produk_satuan', function ($q) use ($produk_satuan) {
+                    $q->where('produk_satuan.id', $produk_satuan);
+                })->with(['bundling'])->get();
+
+                return datatables()->of($bundling)
+                    ->addColumn('bundling', function ($bundling) {
+                        return $bundling->bundling->sku;
+                    })
+                    ->addColumn('produk_satuan', function ($bundling) {
+                        return $bundling->produk_satuan->sku;
+                    })
+                    ->addColumn('aksi', function ($bundling) {
+                        $button = '<div class="dropdown d-inline mr-2"><button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-sm fa-edit"></i> Aksi
+                    </button>';
+
+                        $button .= ' <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 28px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <a class="dropdown-item" href="' . route('produk_bundling.edit', $bundling->id) . '">
+                             Edit</a>
+                        <a class="dropdown-item hapus" href="javascript:void(0)" data-id="' . $bundling->id . '">
+                             Hapus</a>
+                    </div></div>';
+
+                        return $button;
+                    })
+                    ->addIndexColumn()
+                    ->rawColumns(['aksi', 'bundling'])
+                    ->toJson();
+            }
+
+            if (!empty($request->sku_bundling) && !empty($request->produk_satuan)) {
 
                 $sku_bundling = $request->sku_bundling;
+                $produk_satuan = $request->produk_satuan;
 
                 $bundling = ProdukBundling::whereHas('bundling', function ($q) use ($sku_bundling) {
                     $q->where('bundling.id', $sku_bundling);
-                })->with(['produk_satuan'])->get();
+                })->whereHas('produk_satuan', function ($q) use ($produk_satuan) {
+                    $q->where('produk_satuan.id', $produk_satuan);
+                })->get();
 
                 return datatables()->of($bundling)
                     ->addColumn('bundling', function ($bundling) {
