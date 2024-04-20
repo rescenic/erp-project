@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProdukBundlingController;
 use App\Http\Controllers\ProdukPaketController;
 use App\Http\Controllers\ProdukSatuanController;
 use App\Http\Controllers\RoleController;
@@ -99,6 +100,36 @@ Route::prefix('internal')
             ->name('produk-paket.paketByProdukPaket');
         Route::post('produk-paket/updatePaketProduk', [ProdukPaketController::class, 'updateProdukByPaket'])
             ->name('produk_paket.update_paket_produk');
+
+
+        Route::get('produk-bundling', [ProdukBundlingController::class, 'index'])
+            ->name('produk_bundling');
+        Route::get('produk-bundling/data', [ProdukBundlingController::class, 'data'])
+            ->name('produk_bundling.data');
+        Route::get('produk-bundling/tambah', [ProdukBundlingController::class, 'tambah'])
+            ->name('produk_bundling.tambah');
+        Route::post('produk-bundling/simpan', [ProdukBundlingController::class, 'simpan'])
+            ->name('produk_bundling.simpan');
+        Route::get('produk-bundling/edit/{id}', [ProdukBundlingController::class, 'edit'])
+            ->name('produk_bundling.edit');
+        Route::post('produk-bundling/update', [ProdukBundlingController::class, 'update'])
+            ->name('produk_bundling.update');
+        Route::post('produk-bundling/hapus', [ProdukBundlingController::class, 'hapus'])
+            ->name('produk_bundling.hapus');
+
+
+        Route::get('produk-bundling/dataProdukBundling', [ProdukBundlingController::class, 'dataProdukByBundling'])
+            ->name('produk_bundling.dataProdukByBundling');
+        Route::get('produk-bundling/dataProdukBundling', [ProdukBundlingController::class, 'dataProdukByBundling'])
+            ->name('produk_bundling.dataProdukByBundling');
+        Route::get('produk-bundling/simpanProdukBundling', [ProdukBundlingController::class, 'simpanProdukByByBundling'])
+            ->name('produk_bundling.simpanProdukByByBundling');
+        Route::get('produk-bundling/editProdukBundling/{id_bundling}', [ProdukBundlingController::class, 'editProdukBundling'])
+            ->name('produk_bundling.editProdukBundling');
+        Route::post('produk-bundling/updateProdukBundling', [ProdukBundlingController::class, 'updateProdukBundling'])
+            ->name('produk-bundling.updateProdukBundling');
+        Route::post('produk-bundling/updateProdukBundling', [ProdukBundlingController::class, 'updateProdukBundling'])
+            ->name('produk-bundling.updateProdukBundling');
 
 
 

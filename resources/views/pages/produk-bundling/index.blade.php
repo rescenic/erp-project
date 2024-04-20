@@ -1,35 +1,35 @@
 @extends('layouts.be')
 
-@section('title', 'Produk Paket')
+@section('title', 'Produk Bundling')
 
 @section('content')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Produk Paket</h1>
+                <h1>Produk Bundling</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">Produk Paket</div>
+                    <div class="breadcrumb-item">Produk Bundling</div>
                 </div>
             </div>
 
             <div class="section-body">
 
-                <a href="javascript:void(0)" class="btn btn-sm btn-primary my-3 master_paket">
-                    Master Paket
+                <a href="javascript:void(0)" class="btn btn-sm btn-primary my-3 master_bunlding">
+                    Master Bundling
                 </a>
 
-                <a href="javascript:void(0)" class="btn btn-sm btn-primary my-3 produk_by_paket">
-                    Produk By Paket
+                <a href="javascript:void(0)" class="btn btn-sm btn-primary my-3 produk_by_bundling">
+                    Produk By Bundling
                 </a>
 
 
-                <div id="master_paket">
+                <div id="master_bundling">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h4></h4>
                             <div class="card-header-action">
-                                <a href="{{ route('produk_paket.tambah') }}" class="btn btn-primary">
+                                <a href="{{ route('produk_bundling.tambah') }}" class="btn btn-primary">
                                     <i class="fas fa-sm fa-plus-circle"></i> Tambah
                                 </a>
                             </div>
@@ -44,7 +44,7 @@
                                             <th>Kode</th>
                                             <th>Nama</th>
                                             <th>Sku</th>
-                                            <th>Jenis</th>
+
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -55,7 +55,7 @@
                 </div>
 
 
-                <div id="produk_by_paket">
+                <div id="produk_by_bundling">
                     <div class="card card-primary">
                         <div class="card-header">
                             <h4></h4>
@@ -77,7 +77,7 @@
                                             </div>
                                         @endcan
                                         <input type="text" class="form-control" name="q"
-                                            placeholder="cari berdasarkan sku paket">
+                                            placeholder="cari berdasarkan nama role">
                                         <div class="input-group-append">
                                             <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
                                             </button>
@@ -91,7 +91,7 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Paket</th>
+                                            <th>Bundling</th>
                                             <th>Produk Satuan</th>
                                             <th>Qty Satuan</th>
                                             <th>Aksi</th>
@@ -109,7 +109,7 @@
 
 @push('script')
     <script>
-        function data_master_paket() {
+        function data_master_bundling() {
             $('#dataTable').DataTable({
                 searching: false,
                 destroy: true,
@@ -124,7 +124,7 @@
 
                 order: [],
                 ajax: {
-                    url: "{{ route('produk_paket.data') }}",
+                    url: "{{ route('produk_bundling.data') }}",
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -142,10 +142,6 @@
                     {
                         data: 'sku',
                         name: 'sku'
-                    },
-                    {
-                        data: 'jenis',
-                        name: 'jenis'
                     },
 
                     {
@@ -202,23 +198,22 @@
         $(document).on('click', '.produk_by_paket', function() {
             $('#master_paket').hide();
 
-            $('#produk_by_paket').show();
+            $('#produk_by_bundling').show();
 
-            data_produk_paket();
+            data_master_bundling();
         });
 
-        $(document).on('click', '.master_paket', function() {
-            $('#master_paket').show();
+        $(document).on('click', '.master_bunlding', function() {
+            $('#master_bunlding').show();
 
-            data_master_paket();
+            $('#produk_by_bundling').hide();
 
-            $('#produk_by_paket').hide();
         });
 
         $(document).ready(function() {
-            data_master_paket();
+            data_master_bundling();
 
-            $('#produk_by_paket').hide();
+            $('#produk_by_bundling').hide();
         });
 
         $(document).on('click', '.hapus', function() {
@@ -237,7 +232,7 @@
                 if (result.value) {
                     $.ajax({
                         type: "POST",
-                        url: "{{ route('kategori.hapus') }}",
+                        url: "{{ route('produk_bundling.hapus') }}",
                         data: {
                             id: id,
                             _token: "{{ csrf_token() }}"

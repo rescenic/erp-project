@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaketTable extends Migration
+class CreateBundlingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreatePaketTable extends Migration
      */
     public function up()
     {
-        Schema::create('paket', function (Blueprint $table) {
+        Schema::create('bundling', function (Blueprint $table) {
             $table->id();
             $table->string('kode');
             $table->string('nama');
-            $table->string('sku')->nullable();
-            $table->string('jenis');
+            $table->string('sku');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreatePaketTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('paket');
+        Schema::dropIfExists('bundling');
     }
 }

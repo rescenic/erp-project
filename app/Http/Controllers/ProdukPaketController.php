@@ -83,10 +83,27 @@ class ProdukPaketController extends Controller
 
     public function simpan(Request $request)
     {
+
+
+        $validator = Validator::make($request->all(), [
+            'kode' => 'required|unique:paket,kode',
+            'nama' => 'required|unique:paket,kode',
+            'sku' => 'required|unique:paket,kode',
+            'jenis' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'error' => $validator->errors()->toArray()
+            ]);
+        }
+
         $paket = new Paket();
         $paket->kode = $request->kode;
         $paket->sku = $request->sku;
         $paket->nama = $request->nama;
+        $paket->jenis = $request->jenis;
         $paket->save();
 
 

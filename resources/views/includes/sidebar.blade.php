@@ -33,7 +33,7 @@
             </li>
 
 
-            <li><a class="nav-link" href="credits.html"><i class="fas fa-briefcase"></i> <span>Produk
+            <li><a class="nav-link" href="{{ route('produk_bundling') }}"><i class="fas fa-briefcase"></i> <span>Produk
                         Bundling</span></a>
             </li>
 
