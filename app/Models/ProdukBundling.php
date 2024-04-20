@@ -21,8 +21,8 @@ class ProdukBundling extends Model
         return $this->belongsTo(Bundling::class, 'bundling_id', 'id');
     }
 
-    public function produk_satuan(Request $request)
+    public function produk_satuan()
     {
-        return $this->belongsTo(ProdukSatuan::class, 'produk_satuan_id', 'ids');
+        return $this->belongsTo(ProdukSatuan::class, 'produk_satuan_id', 'id');
     }
 }

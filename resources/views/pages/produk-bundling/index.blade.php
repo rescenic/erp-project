@@ -6,10 +6,10 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Produk Bundling</h1>
+                <h1>Bundling</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">Produk Bundling</div>
+                    <div class="breadcrumb-item">Bundling</div>
                 </div>
             </div>
 
@@ -60,40 +60,34 @@
                         <div class="card-header">
                             <h4></h4>
                             <div class="card-header-action">
-                                <a href="{{ route('produk_paket.tambah_produk_by_paket') }}" class="btn btn-primary">
+                                <a href="{{ route('produk_bundling.tambahProdukByBundling') }}" class="btn btn-primary">
                                     <i class="fas fa-sm fa-plus-circle"></i> Tambah
                                 </a>
                             </div>
                         </div>
                         <div class="card-body">
+                            <div class="form-group">
+                                <label for="">Sku Bundling:</label>
+                                <select name="bundling" id="sku_bundling" class="form-control"></select>
+                            </div>
 
-                            <form action="{{ route('role') }}" method="GET">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        @can('roles.create')
-                                            <div class="input-group-prepend">
-                                                <a href="{{ route('admin.role.create') }}" class="btn btn-primary"
-                                                    style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
-                                            </div>
-                                        @endcan
-                                        <input type="text" class="form-control" name="q"
-                                            placeholder="cari berdasarkan nama role">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            <a class="btn btn-sm btn-primary text-white">
+                                <i class="fas fa-sm fa-search"></i> Cari
+                            </a>
 
-                            <div class="table-responsive">
-                                <table class="table table-bordered" style="width: 100%" id="dataTableProdukByPaket">
+                            <a class="btn btn-sm btn-primary text-white reset_produk_bundling">
+                                <i class="fas fa-sm fa-trash"></i> Reset
+                            </a>
+
+                            <div class="table-responsive my-3">
+                                <table class="table table-bordered" style="width: 100%" id="dataTableProdukBundling">
                                     <thead>
                                         <tr>
                                             <th>No</th>
                                             <th>Bundling</th>
                                             <th>Produk Satuan</th>
                                             <th>Qty Satuan</th>
+                                            <th>Jenis</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -152,8 +146,43 @@
             });
         }
 
-        function data_produk_paket() {
-            $('#dataTableProdukByPaket').DataTable({
+        $(document).ready(function() {
+            $('#sku_bundling').select2({
+                minimumInputLength: 3,
+                multiple: false,
+                placeholder: '--Pilih sku bundling',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('produk_bundling.listBundling') }}",
+                    dataType: 'json',
+                    delay: 500,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#sku_bundling').on('change', function() {
+                var sku_bundling = $(this).val();
+
+                data_produk_bundling(sku_bundling);
+            });
+        });
+
+        $(document).on('click', '.reset_produk_bundling', function() {
+            $('#sku_bundling').val('').trigger('change');
+            data_produk_bundling();
+        });
+
+        function data_produk_bundling(sku_bundling = '') {
+            $('#dataTableProdukBundling').DataTable({
                 searching: false,
                 destroy: true,
                 processing: true,
@@ -167,7 +196,10 @@
 
                 order: [],
                 ajax: {
-                    url: "{{ route('produk-paket.data_produk_paket') }}",
+                    url: "{{ route('produk_bundling.dataProdukByBundling') }}",
+                    data: {
+                        sku_bundling: sku_bundling,
+                    },
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -175,8 +207,8 @@
                         'searchable': false
                     },
                     {
-                        data: 'paket',
-                        name: 'paket'
+                        data: 'bundling',
+                        name: 'bundling'
                     },
                     {
                         data: 'produk_satuan',
@@ -185,6 +217,10 @@
                     {
                         data: 'qty_satuan',
                         name: 'qty_satuan'
+                    },
+                    {
+                        data: 'jenis',
+                        name: 'jenis'
                     },
 
                     {
@@ -195,24 +231,24 @@
             });
         }
 
-        $(document).on('click', '.produk_by_paket', function() {
-            $('#master_paket').hide();
+
+        $(document).on('click', '.produk_by_bundling', function() {
+            $('#master_bundling').hide();
 
             $('#produk_by_bundling').show();
 
-            data_master_bundling();
+            data_produk_bundling();
         });
 
         $(document).on('click', '.master_bunlding', function() {
-            $('#master_bunlding').show();
-
+            $('#master_bundling').show();
+            data_master_bundling();
             $('#produk_by_bundling').hide();
-
         });
 
         $(document).ready(function() {
             data_master_bundling();
-
+            $('#master_bunlding').show();
             $('#produk_by_bundling').hide();
         });
 

@@ -16,15 +16,18 @@ class ProdukSatuan extends Model
         'no_bpom'
     ];
 
-    public function kategori_produk(){
+    public function kategori_produk()
+    {
         return $this->belongsTo(KategoriProduk::class, 'kategori_id', 'id');
     }
 
-    public function produk_paket(){
+    public function produk_paket()
+    {
         return $this->belongsToMany(ProdukPaket::class, 'produk_paket', 'paket_id', 'produk_satuan_id');
     }
 
-    public function produk_bundling(){
+    public function produk_bundling()
+    {
         return $this->hasMany(ProdukBundling::class, 'produk_satuan_id', 'id');
     }
 }

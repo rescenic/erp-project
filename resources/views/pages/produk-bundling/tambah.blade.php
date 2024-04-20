@@ -1,15 +1,15 @@
 @extends('layouts.be')
 
-@section('title', 'Produk Bundling')
+@section('title', 'Bundling')
 
 @section('content')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Produk Bundling</h1>
+                <h1>Bundling</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">Tambah Produk Bundling</div>
+                    <div class="breadcrumb-item">Tambah Bundling</div>
                 </div>
             </div>
 
@@ -64,6 +64,9 @@
 @push('script')
     <script>
         $(document).ready(function() {
+
+
+
             $("#form_simpan").submit(function(e) {
                 e.preventDefault();
 

@@ -122,7 +122,9 @@ Route::prefix('internal')
             ->name('produk_bundling.dataProdukByBundling');
         Route::get('produk-bundling/dataProdukBundling', [ProdukBundlingController::class, 'dataProdukByBundling'])
             ->name('produk_bundling.dataProdukByBundling');
-        Route::get('produk-bundling/simpanProdukBundling', [ProdukBundlingController::class, 'simpanProdukByByBundling'])
+        Route::get('produk-bundling/tambah-produk-by-bundling', [ProdukBundlingController::class, 'tambahProdukByBundling'])
+            ->name('produk_bundling.tambahProdukByBundling');
+        Route::post('produk-bundling/simpanProdukBundling', [ProdukBundlingController::class, 'simpanProdukByByBundling'])
             ->name('produk_bundling.simpanProdukByByBundling');
         Route::get('produk-bundling/editProdukBundling/{id_bundling}', [ProdukBundlingController::class, 'editProdukBundling'])
             ->name('produk_bundling.editProdukBundling');
@@ -130,6 +132,10 @@ Route::prefix('internal')
             ->name('produk-bundling.updateProdukBundling');
         Route::post('produk-bundling/updateProdukBundling', [ProdukBundlingController::class, 'updateProdukBundling'])
             ->name('produk-bundling.updateProdukBundling');
+        Route::get('produk-bundling/list-bundling', [ProdukBundlingController::class, 'listBundling'])
+            ->name('produk_bundling.listBundling');
+        Route::get('produk-bundling/list-produk-satuan', [ProdukBundlingController::class, 'listProdukSatuan'])
+            ->name('produk_bundling.list_produk_satuan');
 
 
 
