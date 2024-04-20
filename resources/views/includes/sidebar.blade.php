@@ -23,6 +23,10 @@
             </li>
 
 
+            <li><a class="nav-link" href="{{ route('kategori_packaging') }}"><i class="fas fa-tags"></i> <span>Kategori Packaging</span></a>
+            </li>
+
+
 
             <li><a class="nav-link" href="{{ route('produk_satuan') }}"><i class="fas fa-briefcase"></i> <span>Produk
                         Satuan</span></a>

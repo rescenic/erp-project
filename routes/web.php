@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KategoriPackagingController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProdukBundlingController;
 use App\Http\Controllers\ProdukPaketController;
@@ -137,6 +138,21 @@ Route::prefix('internal')
         Route::get('produk-bundling/list-produk-satuan', [ProdukBundlingController::class, 'listProdukSatuan'])
             ->name('produk_bundling.list_produk_satuan');
 
+
+        Route::get('kategori-packaging', [KategoriPackagingController::class, 'index'])
+            ->name('kategori_packaging');
+        Route::get('kategori-packaging/data', [KategoriPackagingController::class, 'data'])
+            ->name('kategori_packaging.data');
+        Route::get('kategori-packaging/tambah', [KategoriPackagingController::class, 'tambah'])
+            ->name('kategori_packaging.tambah');
+        Route::post('kategori-packaging/simpan', [KategoriPackagingController::class, 'simpan'])
+            ->name('kategori_packaging.simpan');
+        Route::get('kategori-packaging/edit/{id}', [KategoriPackagingController::class, 'edit'])
+            ->name('kategori_packaging.edit');
+        Route::post('kategori-packaging/update', [KategoriPackagingController::class, 'update'])
+            ->name('kategori_packaging.update');
+        Route::post('kategori-packaging/hapus', [KategoriPackagingController::class, 'hapus'])
+            ->name('kategori_packaging.hapus');
 
 
         Route::get('permission', [PermissionController::class, 'index'])
