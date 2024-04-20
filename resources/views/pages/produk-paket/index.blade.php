@@ -1,39 +1,103 @@
 @extends('layouts.be')
 
-@section('title', 'Kategori Produk')
+@section('title', 'Produk Paket')
 
 @section('content')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Kategori Produk</h1>
+                <h1>Produk Paket</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">Kategori Produk</div>
+                    <div class="breadcrumb-item">Produk Paket</div>
                 </div>
             </div>
 
             <div class="section-body">
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h4></h4>
-                        <div class="card-header-action">
-                            <a href="{{ route('kategori.tambah') }}" class="btn btn-primary">
-                                <i class="fas fa-sm fa-plus-circle"></i> Tambah
-                            </a>
+
+                <a href="javascript:void(0)" class="btn btn-sm btn-primary my-3 master_paket">
+                    Master Paket
+                </a>
+
+                <a href="javascript:void(0)" class="btn btn-sm btn-primary my-3 produk_by_paket">
+                    Produk By Paket
+                </a>
+
+
+                <div id="master_paket">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h4></h4>
+                            <div class="card-header-action">
+                                <a href="{{ route('produk_paket.tambah') }}" class="btn btn-primary">
+                                    <i class="fas fa-sm fa-plus-circle"></i> Tambah
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="width: 100%" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Kode</th>
+                                            <th>Nama</th>
+                                            <th>Sku</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" style="width: 100%" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kategori</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                </div>
+
+
+                <div id="produk_by_paket">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h4></h4>
+                            <div class="card-header-action">
+                                <a href="{{ route('produk_paket.tambah_produk_by_paket') }}" class="btn btn-primary">
+                                    <i class="fas fa-sm fa-plus-circle"></i> Tambah
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <form action="{{ route('role') }}" method="GET">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        @can('roles.create')
+                                            <div class="input-group-prepend">
+                                                <a href="{{ route('admin.role.create') }}" class="btn btn-primary"
+                                                    style="padding-top: 10px;"><i class="fa fa-plus-circle"></i> TAMBAH</a>
+                                            </div>
+                                        @endcan
+                                        <input type="text" class="form-control" name="q"
+                                            placeholder="cari berdasarkan nama role">
+                                        <div class="input-group-append">
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> CARI
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered" style="width: 100%" id="dataTableProdukByPaket">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Paket</th>
+                                            <th>Produk Satuan</th>
+                                            <th>Qty Satuan</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,8 +108,9 @@
 
 @push('script')
     <script>
-        $(document).ready(function() {
+        function data_master_paket() {
             $('#dataTable').DataTable({
+                searching: false,
                 destroy: true,
                 processing: true,
                 serverSide: true,
@@ -58,7 +123,7 @@
 
                 order: [],
                 ajax: {
-                    url: "{{ route('kategori.data') }}",
+                    url: "{{ route('produk_paket.data') }}",
                 },
                 columns: [{
                         data: 'DT_RowIndex',
@@ -66,8 +131,16 @@
                         'searchable': false
                     },
                     {
-                        data: 'kategori',
-                        name: 'kategori'
+                        data: 'kode',
+                        name: 'kode'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'sku',
+                        name: 'sku'
                     },
 
                     {
@@ -76,6 +149,69 @@
                     },
                 ]
             });
+        }
+
+        function data_produk_paket() {
+            $('#dataTableProdukByPaket').DataTable({
+                searching: false,
+                destroy: true,
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 20, 25, -1],
+                    [10, 20, 25, "50"]
+                ],
+
+                order: [],
+                ajax: {
+                    url: "{{ route('produk-paket.data_produk_paket') }}",
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        'orderable': false,
+                        'searchable': false
+                    },
+                    {
+                        data: 'paket',
+                        name: 'paket'
+                    },
+                    {
+                        data: 'produk_satuan',
+                        name: 'produk_satuan'
+                    },
+                    {
+                        data: 'qty_satuan',
+                        name: 'qty_satuan'
+                    },
+
+                    {
+                        data: 'aksi',
+                        name: 'aksi'
+                    },
+                ]
+            });
+        }
+
+        $(document).on('click', '.produk_by_paket', function() {
+            $('#master_paket').hide();
+
+            $('#produk_by_paket').show();
+
+            data_produk_paket();
+        });
+
+        $(document).on('click', '.master_paket', function() {
+            $('#master_paket').show();
+
+            $('#produk_by_paket').hide();
+        });
+
+        $(document).ready(function() {
+            data_master_paket();
+
+            $('#produk_by_paket').hide();
         });
 
         $(document).on('click', '.hapus', function() {
@@ -111,6 +247,46 @@
                                     showConfirmButton: false,
                                 });
                                 $('#dataTable').DataTable().ajax.reload();
+                            }
+                        },
+                    })
+                }
+            });
+        });
+
+        $(document).on('click', '.hapus_produk_paket', function() {
+            let id = $(this).attr('data-id');
+            Swal.fire({
+                title: 'Hapus data?',
+                text: "Data akan terhapus!",
+                icon: 'warning',
+                confirmButton: true,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ route('produk_paket.hapus_produk_paket') }}",
+                        data: {
+                            id: id,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(res, status) {
+                            if (status = '200') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    text: 'Data telah dihapus',
+                                    title: 'Berhasil',
+                                    toast: true,
+                                    position: 'top-end',
+                                    timer: 1500,
+                                    showConfirmButton: false,
+                                });
+                                data_master_paket().DataTable().ajax.reload();
                             }
                         },
                     })

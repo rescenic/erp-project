@@ -9,13 +9,17 @@ class ProdukPaket extends Model
 {
     use HasFactory;
 
-    protected $table = 'paket';
+    protected $table = 'produk_paket';
 
     protected $fillable = [
-        'kode', 'nama', 'sku'
+        'paket_id', 'produk_satuan_id', 'qty_satuan'
     ];
 
+    public function paket(){
+        return $this->belongsTo(Paket::class, 'paket_id', 'id');
+    }
+
     public function produk_satuan(){
-        return $this->belongsToMany(ProdukSatuan::class, 'produk_paket', 'paket_id', 'produk_satuan_id');
+        return $this->belongsTo(ProdukSatuan::class, 'produk_satuan_id', 'id');
     }
 }

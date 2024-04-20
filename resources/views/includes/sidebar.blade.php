@@ -28,7 +28,8 @@
                         Satuan</span></a>
             </li>
 
-            <li><a class="nav-link" href="{{ route('produk_paket') }}"><i class="fas fa-briefcase"></i> <span>Produk Paket</span></a>
+            <li><a class="nav-link" href="{{ route('produk_paket') }}"><i class="fas fa-briefcase"></i> <span>Produk
+                        Paket</span></a>
             </li>
 
 
@@ -36,6 +37,44 @@
                         Bundling</span></a>
             </li>
 
+            <li class="menu-header">Gudang</li>
+
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-list"></i>
+                    <span>Bank Stok</span></a>
+            </li>
+
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-edit"></i>
+                    <span>PO</span></a>
+            </li>
+
+
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-truck"></i>
+                    <span>Barang Masuk</span></a>
+            </li>
+
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-truck"></i>
+                    <span>Barang Keluar</span></a>
+            </li>
+
+
+            <li class="menu-header">Produksi</li>
+
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-list"></i>
+                    <span>Bank Stok</span></a>
+            </li>
+
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-edit"></i>
+                    <span>PO</span></a>
+            </li>
+
+
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-truck"></i>
+                    <span>Barang Masuk</span></a>
+            </li>
+
+            <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-truck"></i>
+                    <span>Barang Keluar</span></a>
+            </li>
 
             <li class="menu-header">Pengaturan</li>
 

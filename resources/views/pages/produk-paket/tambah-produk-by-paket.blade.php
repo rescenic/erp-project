@@ -1,15 +1,15 @@
 @extends('layouts.be')
 
-@section('title', 'Produk Paket')
+@section('title', 'Produk By Paket')
 
 @section('content')
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Produk Paket</h1>
+                <h1>Produk By Paket</h1>
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="{{ route('dashboard') }}">Dashboard</a></div>
-                    <div class="breadcrumb-item">Produk Paket</div>
+                    <div class="breadcrumb-item">Produk By Paket</div>
                 </div>
             </div>
 
@@ -22,21 +22,20 @@
 
 
                             <div class="form-group">
-                                <label for="">Kode:</label>
-                                <input type="text" name="kode" class="form-control" placeholder="Masukan kode">
+                                <label for="">Produk Paket:</label>
+                                <select name="produk_paket" id="paket" class="form-control"></select>
                             </div>
 
                             <div class="form-group">
-                                <label for="">Nama:</label>
-                                <input type="text" name="nama" class="form-control" placeholder="Masukan nama">
+                                <label for="">Produk Satuan:</label>
+                                <select name="produk_satuan" id="produk_satuan" class="form-control"></select>
                             </div>
 
 
                             <div class="form-group">
-                                <label for="">Sku:</label>
-                                <input type="text" name="sku" class="form-control" placeholder="Masukan sku">
+                                <label for="">Qty Produk Satuan:</label>
+                                <input type="number" name="qty_satuan" class="form-control" placeholder="Masukan qty produk satuan">
                             </div>
-
 
 
                             <button class="btn btn-sm btn-primary" type="submit">
@@ -54,12 +53,52 @@
 @push('script')
     <script>
         $(document).ready(function() {
+            $('#paket').select2({
+                placeholder: '--Pilih paket',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('produk-paket.listPaket') }}",
+                    dataType: 'json',
+                    delay: 500,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#produk_satuan').select2({
+                placeholder: '--Pilih produk satuan',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('produk-paket.listProdukSatuan') }}",
+                    dataType: 'json',
+                    delay: 500,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+
             $("#form_simpan").submit(function(e) {
                 e.preventDefault();
 
                 var formData = new FormData($(this)[0]);
                 $.ajax({
-                    url: '{{ route('produk_paket.simpan') }}',
+                    url: '{{ route('produk_paket.simpan_produk_by_paket') }}',
                     method: 'post',
                     data: formData,
                     cache: false,
