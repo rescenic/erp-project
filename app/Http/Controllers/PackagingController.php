@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Packaging;
+use App\Models\ProdukPackaging;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -17,11 +18,18 @@ class PackagingController extends Controller
     public function data(Request $request)
     {
         if ($request->ajax()) {
-            $packaging = Packaging::with(['kategori_packaging'])->get();
+            $packaging = Packaging::with(['kategori_packaging', 'produk_satuan'])->get();
 
             return datatables()->of($packaging)
                 ->addColumn('kategori', function ($packaging) {
                     return $packaging->kategori_packaging->kategori;
+                })
+                ->addColumn('produk_satuan', function ($packaging) {
+                    $produk_satuan = '';
+                    foreach ($packaging->produk_satuan as $ps) {
+                        $produk_satuan .= '<button class="btn btn-sm btn-success mb-1 mt-1 mr-1">' . $ps->sku . '</button>';
+                    }
+                    return $produk_satuan;
                 })
                 ->addColumn('aksi', function ($packaging) {
                     $button = '<div class="dropdown d-inline mr-2"><button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -38,7 +46,7 @@ class PackagingController extends Controller
                     return $button;
                 })
                 ->addIndexColumn()
-                ->rawColumns(['aksi', 'kategori'])
+                ->rawColumns(['aksi', 'kategori', 'produk_satuan'])
                 ->toJson();
         }
     }
@@ -101,16 +109,33 @@ class PackagingController extends Controller
             ]);
         }
 
-        $packaging = new Packaging();
-        $packaging->kode = $request->kode;
-        $packaging->nama = $request->nama;
-        $packaging->kategori_packaging_id = $request->kategori_packaging;
-        $packaging->save();
+        DB::beginTransaction();
 
-        if ($packaging) {
+        try {
+            $packaging = new Packaging();
+            $packaging->kode = $request->kode;
+            $packaging->nama = $request->nama;
+            $packaging->kategori_packaging_id = $request->kategori_packaging;
+            $packaging->save();
+
+            $packaging->produk_satuan()->attach($request->produk_satuan);
+
+            DB::commit();
+
+            if ($packaging) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Data disimpan'
+                ]);
+            }
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
             return response()->json([
-                'status' => 'success',
-                'message' => 'Data disimpan'
+                'status' => 'error db transaction',
+                'message' => 'Terjadi kesalahan',
+                'error' => $e->getMessage()
             ]);
         }
     }
@@ -164,6 +189,45 @@ class PackagingController extends Controller
                 'status' => 'success',
                 'message' => 'Data dihapus'
             ]);
+        }
+    }
+
+
+    public function listProdukSatuan(Request $request)
+    {
+        if ($request->has('q')) {
+            $search = $request->q;
+
+            $result = [];
+
+            $data = DB::table('produk_satuan')
+                ->select('produk_satuan.*')
+                ->where('produk_satuan.*', 'LIKE', '%' . $search . '%')
+                ->get();
+
+            foreach ($data as $d) {
+                $result[] = [
+                    'id' => $d->id,
+                    'text' => $d->sku
+                ];
+            }
+
+            return response()->json($result);
+        } else {
+            $result = [];
+
+            $data = DB::table('produk_satuan')
+                ->select('produk_satuan.*')
+                ->get();
+
+            foreach ($data as $d) {
+                $result[] = [
+                    'id' => $d->id,
+                    'text' => $d->sku
+                ];
+            }
+
+            return response()->json($result);
         }
     }
 }

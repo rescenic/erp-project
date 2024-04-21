@@ -172,6 +172,8 @@ Route::prefix('internal')
             ->name('packaging.update');
         Route::get('packaging/listKategoriPackaging', [PackagingController::class, 'listKategoriPackaging'])
             ->name('packaging.listKategoriPackaging');
+        Route::get('packaging/listProdukSatuan', [PackagingController::class, 'listProdukSatuan'])
+            ->name('packaging.listProdukSatuan');
         Route::post('packaging/hapus', [PackagingController::class, 'hapus'])
             ->name('packaging.hpaus');
 

@@ -15,6 +15,12 @@
 
 
             <div class="section-body">
+
+                <a href="{{ route('packaging') }}" class="btn btn-sm btn-primary my-3">
+                    <i class="fas fa-sm fa-arrow-left"></i> Kembali
+                </a>
+
+
                 <div class="card card-primary">
 
                     <div class="card-body">
@@ -37,7 +43,14 @@
                             <div class="form-group">
                                 <label for="">Kategori Packaging:</label>
                                 <select name="kategori_packaging" id="kategori_packaging" class="form-control"></select>
-                                <span class="text-danger error-text kategori_packaging_error" style="font-size: 12px;"></span>
+                                <span class="text-danger error-text kategori_packaging_error"
+                                    style="font-size: 12px;"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="">Produk Satuan:</label>
+                                <select name="produk_satuan[]" id="produk_satuan" class="form-control"></select>
                             </div>
 
                             <button class="btn btn-sm btn-primary" type="submit">
@@ -63,6 +76,27 @@
                 allowClear: true,
                 ajax: {
                     url: "{{ route('packaging.listKategoriPackaging') }}",
+                    dataType: 'json',
+                    delay: 500,
+                    processResults: function(data) {
+                        return {
+                            results: $.map(data, function(item) {
+                                return {
+                                    text: item.text,
+                                    id: item.id
+                                }
+                            })
+                        };
+                    }
+                }
+            });
+
+            $('#produk_satuan').select2({
+                multiple: true,
+                placeholder: '--Pilih produk satuan',
+                allowClear: true,
+                ajax: {
+                    url: "{{ route('packaging.listProdukSatuan') }}",
                     dataType: 'json',
                     delay: 500,
                     processResults: function(data) {

@@ -19,4 +19,10 @@ class Packaging extends Model
     {
         return $this->belongsTo(KategoriPackaging::class, 'kategori_packaging_id', 'id');
     }
+
+
+    public function produk_satuan()
+    {
+        return $this->belongsToMany(ProdukSatuan::class, 'packaging_produk', 'packaging_id', 'produk_satuan_id');
+    }
 }

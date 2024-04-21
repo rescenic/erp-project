@@ -23,13 +23,6 @@
             </li>
 
 
-            <li><a class="nav-link" href="{{ route('kategori_packaging') }}"><i class="fas fa-tags"></i> <span>Kategori
-                        Packaging</span></a>
-            </li>
-
-            <li><a class="nav-link" href="{{ route('packaging') }}"><i class="fas fa-box"></i>
-                    <span>Packaging</span></a>
-            </li>
 
 
 
@@ -47,6 +40,16 @@
             </li>
 
             <li class="menu-header">Gudang</li>
+
+
+
+            <li><a class="nav-link" href="{{ route('kategori_packaging') }}"><i class="fas fa-tags"></i> <span>Kategori
+                        Packaging</span></a>
+            </li>
+
+            <li><a class="nav-link" href="{{ route('packaging') }}"><i class="fas fa-box"></i>
+                    <span>Packaging</span></a>
+            </li>
 
             <li><a class="nav-link" href="{{ route('permission') }}"><i class="fas fa-list"></i>
                     <span>Bank Stok</span></a>

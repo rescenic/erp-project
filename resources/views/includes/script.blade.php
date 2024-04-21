@@ -16,9 +16,11 @@
 
 
 
-  <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js"></script>
-  <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap4.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="{{ asset('be/dist/assets/modules/datatables/datatables.min.js') }}"></script>
+  <script src="{{ asset('be/dist/assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('be/dist/assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
+  <script src="{{ asset('be/dist/assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
+  <script src="{{ asset('be/sweetalert/sweetalert.js') }}"></script>
   <script src="{{ asset('be/dist/assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
 
   <!-- Page Specific JS File -->

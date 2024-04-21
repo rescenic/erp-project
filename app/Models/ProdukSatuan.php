@@ -30,4 +30,9 @@ class ProdukSatuan extends Model
     {
         return $this->hasMany(ProdukBundling::class, 'produk_satuan_id', 'id');
     }
+
+    public function packaging()
+    {
+        return $this->belongsToMany(Packaging::class, 'packaging_produk', 'produk_satuan_id', 'packaging_id');
+    }
 }
